@@ -1,52 +1,39 @@
+def merge_sort(arr):
+    if len(arr) > 1:
+        mid = len(arr) // 2
+        left_half = arr[:mid]
+        right_half = arr[mid:]
 
-def debug_print(debug_msg=None, **kwargs):
+        merge_sort(left_half)
+        merge_sort(right_half)
 
-    if debug_msg:
-        print(debug_msg)
+        i = j = k = 0
 
-    for key, value in kwargs.items():
-        print("{}: {}".format(key, value))
+        while i < len(left_half) and j < len(right_half):
+            if left_half[i] < right_half[j]:
+                arr[k] = left_half[i]
+                i += 1
+            else:
+                arr[k] = right_half[j]
+                j += 1
+            k += 1
 
+        while i < len(left_half):
+            arr[k] = left_half[i]
+            i += 1
+            k += 1
 
-def mergesort(array):
-    if len(array) <= 1:
-        return array
+        while j < len(right_half):
+            arr[k] = right_half[j]
+            j += 1
+            k += 1
 
-    m = len(array) // 2
-
-    left = mergesort(array[:m])
-    right = mergesort(array[m:])
-
-    return merge(left, right)
-
-
-def merge(left, right):
-    merged = []
-
-    while len(left) > 0 and len(right) > 0:
-        if left[0] <= right[0]:
-            merged.append(left.pop(0))
-        else:
-            merged.append(right.pop(0))
-
-    if len(left) > 0:
-        merged += left
-    else:
-        merged += right
-
-    return merged
-
+def main():
+    input_str = input("Enter numbers, separated by ',': ")
+    input_list = input_str.split(',')
+    value_list = [int(x) for x in input_list]
+    merge_sort(value_list)
+    print(value_list)
 
 if __name__ == "__main__":
-    input_str = input("Enter numbers, separated by ',': ")
-    input_list = input_str.split(",")
-    value_list = []
-    for x in input_list:
-        try:
-            value_list.append(int(x))
-        except ValueError as err:
-            print("Invalid input.")
-            quit(1)
-
-    sorted_list = mergesort(value_list)
-    print(sorted_list)
+    main()
